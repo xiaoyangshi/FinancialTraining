@@ -7,6 +7,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,8 +53,27 @@ public class MainActivity extends AppCompatActivity {
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
 //        settings.setAllowFileAccessFromFileURLs(true);
 //            mWebview.loadUrl();
-            mWebview.loadUrl("http://h5.mmpei.cn/h5_article/index.html#/article?fid=2&uid=2011&os=android&requestID=1535009702018422&artID=exc_11001836");
+            mWebview.loadUrl("http://baidu.com/");
 
     }
-
+    @Override
+    public void onBackPressed() {
+        boolean b = mWebview.canGoBack();
+        if (b) {
+            mWebview.goBack();
+        } else {
+           exit();
+        }
+    }
+    long exitTime;
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                    Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
 }
