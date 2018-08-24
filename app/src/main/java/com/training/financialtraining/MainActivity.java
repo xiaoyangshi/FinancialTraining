@@ -1,5 +1,7 @@
 package com.training.financialtraining;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +31,22 @@ public class MainActivity extends AppCompatActivity {
         mWebview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
+                if (url == null) {
+                    return false;
+                }
+                try {
+                    if (url.startsWith("http:") || url.startsWith("https:")) {
+                        view.loadUrl(url);
+                        return true;
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                        return true;
+                    }
+                } catch (Exception e) {
+                    return false;
+                }
+
             }
         });
         mWebview.setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -53,19 +69,22 @@ public class MainActivity extends AppCompatActivity {
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
 //        settings.setAllowFileAccessFromFileURLs(true);
 //            mWebview.loadUrl();
-            mWebview.loadUrl("http://baidu.com/");
+        mWebview.loadUrl("http://baidu.com/");
 
     }
+
     @Override
     public void onBackPressed() {
         boolean b = mWebview.canGoBack();
         if (b) {
             mWebview.goBack();
         } else {
-           exit();
+            exit();
         }
     }
+
     long exitTime;
+
     public void exit() {
         if ((System.currentTimeMillis() - exitTime) > 2000) {
             Toast.makeText(getApplicationContext(), "再按一次退出程序",
