@@ -27,7 +27,7 @@ import okhttp3.Response;
 public class OkHttp {
     private static final String TAG = "okhttp";
 
-    public OkHttp(Context context) {
+    public void get() {
         String url = "http://wwww.baidu.com";
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder().url(url).get()//默认就是GET请求，可以不写
