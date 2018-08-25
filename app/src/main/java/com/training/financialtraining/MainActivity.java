@@ -95,4 +95,28 @@ public class MainActivity extends AppCompatActivity {
             System.exit(0);
         }
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            if (mWebview != null) {
+                mWebview.onResume();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            if (mWebview != null) {
+                mWebview.onPause();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
