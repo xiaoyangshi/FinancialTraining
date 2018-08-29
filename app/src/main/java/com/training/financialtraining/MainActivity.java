@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
 //        settings.setAllowFileAccessFromFileURLs(true);
 //            mWebview.loadUrl();
-        mWebview.loadUrl("http://baidu.com/");
+        mWebview.loadUrl("http://baidu.com");
 
     }
 

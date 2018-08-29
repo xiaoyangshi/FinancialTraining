@@ -62,9 +62,9 @@ public class ReceiveIntentService extends GTIntentService {
                 //设置通知标题
                 .setContentTitle(bean.getTitle())
                 //设置通知内容
-                .setContentText(bean.getContent())
+                .setContentText(bean.getText())
                 .setAutoCancel(true)
-                .setTicker(bean.getContent())
+                .setTicker(bean.getTitle())
                 .setDefaults(Notification.DEFAULT_VIBRATE)
         //设置通知时间，默认为系统发出通知的时间，通常不用设置
         .setWhen(System.currentTimeMillis());

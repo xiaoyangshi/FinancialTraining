@@ -5,12 +5,29 @@ package com.training.financialtraining.push;
  */
 
 public class GeTuiPushBean {
+    private String title;
+    private String text;
 
-    /**
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+   /* *//**
      * title : title
      * content : desc
      * payload : {"type":1}
-     */
+     *//*
 
     private String title;
     private String content;
@@ -41,9 +58,9 @@ public class GeTuiPushBean {
     }
 
     public static class PayloadBean {
-        /**
+        *//**
          * type : 1
-         */
+         *//*
 
         private int type;
 
@@ -54,6 +71,6 @@ public class GeTuiPushBean {
         public void setType(int type) {
             this.type = type;
         }
-    }
+    }*/
 
 }
