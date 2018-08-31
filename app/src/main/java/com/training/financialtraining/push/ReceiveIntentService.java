@@ -50,8 +50,6 @@ public class ReceiveIntentService extends GTIntentService {
     }
 
     private void showNotification(GeTuiPushBean bean){
-//        GeTuiPushBean.PayloadBean payload1 = bean.getPayload();
-//        int type = payload1.getType();
 
         //获取NotificationManager实例
         NotificationManager notifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
