@@ -22,9 +22,9 @@ android {
             abiFilters 'armeabi', "armeabi-v7a"
         }
         manifestPlaceholders = [
-                GETUI_APP_ID    : "UmCIt2K24j80Jx8v4oss1",
-                GETUI_APP_KEY   : "3F7iENZcwg9vUiYhR0I55A",
-                GETUI_APP_SECRET: "onKDC0Kfs18zlLtGq6Bn03"
+                GETUI_APP_ID    : "VUAde3IP6C8WBTjCQbD761",
+                GETUI_APP_KEY   : "DyKxsQlnWlA4wbKUGPk003",
+                GETUI_APP_SECRET: "lkMUtPTH5W8FUPzF0SQAa4"
         ]
       /*  manifestPlaceholders = [//测试用
                 GETUI_APP_ID    : "eHkPwRM5Ee7Gn5Rrimhof3",
