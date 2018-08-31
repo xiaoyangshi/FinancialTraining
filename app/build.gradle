@@ -22,10 +22,15 @@ android {
             abiFilters 'armeabi', "armeabi-v7a"
         }
         manifestPlaceholders = [
+                GETUI_APP_ID    : "UmCIt2K24j80Jx8v4oss1",
+                GETUI_APP_KEY   : "3F7iENZcwg9vUiYhR0I55A",
+                GETUI_APP_SECRET: "onKDC0Kfs18zlLtGq6Bn03"
+        ]
+      /*  manifestPlaceholders = [//测试用
                 GETUI_APP_ID    : "eHkPwRM5Ee7Gn5Rrimhof3",
                 GETUI_APP_KEY   : "trvRbwwdm696Ri1oNBIGO9",
                 GETUI_APP_SECRET: "vhNoeQBWI2A7ylGDeny387"
-        ]
+        ]*/
     }
     buildTypes {
         release {
