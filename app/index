@@ -1,0 +1,16 @@
+Android开发说明文档
+
+1.开发根据
+    用Android自带控件WebView加载H5方式实现内嵌
+    利用个推第三方透传消息,再通过通知栏Nofication弹出,实现消息推送
+
+2.版本号
+    版本: 1.0.0
+
+3打包流程
+    签名文件 financial.jks
+    详细配置 {  keyAlias 'shixiaoyang'
+                 keyPassword 'shixiaoyang'
+                 storeFile file('financial.jks')
+                 storePassword 'shixiaoyang'}
+      打包:Build -> Generate Signed Apk -> 选择签名文件 -> 签名 -> 通过 爱加密/360 加密
