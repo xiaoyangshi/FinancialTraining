@@ -5,5 +5,5 @@ package com.training.financialtraining;
  */
 
 public class Constants {
-    public static final String HTML_URL = "http://47.105.79.50/";
+    public static final String HTML_URL = "http://www.mon-keys.cn/";
 }
