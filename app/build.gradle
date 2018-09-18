@@ -21,16 +21,17 @@ android {
         ndk {
             abiFilters 'armeabi', "armeabi-v7a"
         }
-        manifestPlaceholders = [
+     /*   manifestPlaceholders = [
                 GETUI_APP_ID    : "VUAde3IP6C8WBTjCQbD761",
                 GETUI_APP_KEY   : "DyKxsQlnWlA4wbKUGPk003",
                 GETUI_APP_SECRET: "lkMUtPTH5W8FUPzF0SQAa4"
-        ]
-      /*  manifestPlaceholders = [//测试用
-                GETUI_APP_ID    : "eHkPwRM5Ee7Gn5Rrimhof3",
-                GETUI_APP_KEY   : "trvRbwwdm696Ri1oNBIGO9",
-                GETUI_APP_SECRET: "vhNoeQBWI2A7ylGDeny387"
         ]*/
+
+        manifestPlaceholders = [//测试用
+                GETUI_APP_ID    : "m6tGU6lNX481PKGbjgoRX2",
+                GETUI_APP_KEY   : "woz3ktQMdO6U8C6fZjviq2",
+                GETUI_APP_SECRET: "ae89JrOb7h9JZhbbRdeSr6"
+        ]
     }
     buildTypes {
         release {
