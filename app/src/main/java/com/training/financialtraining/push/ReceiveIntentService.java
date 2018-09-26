@@ -13,7 +13,6 @@ import com.igexin.sdk.GTIntentService;
 import com.igexin.sdk.message.GTCmdMessage;
 import com.igexin.sdk.message.GTNotificationMessage;
 import com.igexin.sdk.message.GTTransmitMessage;
-import com.training.financialtraining.MainActivity;
 import com.training.financialtraining.R;
 
 /**
@@ -68,14 +67,15 @@ public class ReceiveIntentService extends GTIntentService {
         .setWhen(System.currentTimeMillis());
 
 //        if(type == 1){
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), com.training.financialtraining.MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
             builder.setContentIntent(pendingIntent);
 //        }
 
         //通过builder.build()方法生成Notification对象,并发送通知,id=1
 //        notifyManager.notify((int)(Math.random()*100), builder.build());
-        notifyManager.notify(1, builder.build());
+        notifyManager.notify((int)(Math.random()*100), builder.build());
 
     }
     @Override

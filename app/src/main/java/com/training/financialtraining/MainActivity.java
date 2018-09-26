@@ -1,30 +1,63 @@
 package com.training.financialtraining;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private WebView mWebview;
+    private NetworkChangeReceiver networkChangeReceiver;
+    private LinearLayout noNetLayout;
+    boolean loadWeb = false; //是否已经加载wenview,加载过一次就true
+    boolean haveNet = true;  //是否有网,用于检测不到网络,2秒后默认有网加载
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        initWebView();
+        networkListen();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!loadWeb && haveNet){
+                    loadWeb = true;
+                    initWebView();
+                }
+            }
+        },2000);
+    }
+
+    /**
+     * 网络变化
+     */
+    private void networkListen() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        networkChangeReceiver = new NetworkChangeReceiver();
+        registerReceiver(networkChangeReceiver, intentFilter);
+
     }
 
     private void initView() {
         mWebview = (WebView) findViewById(R.id.webview);
+        noNetLayout = (LinearLayout) findViewById(R.id.nonet);
     }
 
     private void initWebView() {
@@ -38,8 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     if (url.startsWith("http:") || url.startsWith("https:")) {
                         view.loadUrl(url);
                         return true;
-                    }
-                    else {
+                    } else {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                         startActivity(intent);
                         return true;
@@ -73,6 +105,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    class NetworkChangeReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isAvailable()) {
+                if (noNetLayout != null && !loadWeb) {//有网
+                    noNetLayout.setVisibility(View.GONE);
+                    initWebView();
+                    loadWeb = true;
+                    haveNet = true;
+                }
+
+            } else {
+                if (noNetLayout != null && !loadWeb) {
+                    noNetLayout.setVisibility(View.VISIBLE);
+                    haveNet = false;
+                }
+            }
+        }
+    }
+
+
     @Override
     public void onBackPressed() {
         boolean b = mWebview.canGoBack();
@@ -95,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
             System.exit(0);
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -107,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -119,4 +176,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (networkChangeReceiver != null)
+            unregisterReceiver(networkChangeReceiver);
+    }
 }
