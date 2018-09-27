@@ -32,7 +32,7 @@ android {
                 GETUI_APP_KEY   : "woz3ktQMdO6U8C6fZjviq2",
                 GETUI_APP_SECRET: "ae89JrOb7h9JZhbbRdeSr6"
         ]
-        /*manifestPlaceholders = [//自己测试用
+       /* manifestPlaceholders = [//自己测试用
                 GETUI_APP_ID    : "eHkPwRM5Ee7Gn5Rrimhof3",
                 GETUI_APP_KEY   : "trvRbwwdm696Ri1oNBIGO9",
                 GETUI_APP_SECRET: "vhNoeQBWI2A7ylGDeny387"
