@@ -1,6 +1,5 @@
 package com.training.financialtraining;
 
-import android.*;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void synCookie(String url) {
-        Log.e("cook", "设置cookie" + (String) SharedPreferenceUtil.get(this, "cookie", ""));
+//        Log.e("cook", "设置cookie" + (String) SharedPreferenceUtil.get(this, "cookie", ""));
         CookieSyncManager.createInstance(this);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 //            CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(context);
 //            cookieSyncManager.sync();
             CookieSyncManager.getInstance().sync();
-            Log.e("cook", "同步cookie");
+//            Log.e("cook", "同步cookie");
         }
 
     }
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 CookieManager cookieManager = CookieManager.getInstance();
                 String cookie = cookieManager.getCookie(url);
                 SharedPreferenceUtil.put(MainActivity.this, "cookie", cookie);
-                Log.e("cook", "保存cookie" + cookie);
+//                Log.e("cook", "保存cookie" + cookie);
             }
         });
         mWebview.setWebChromeClient(new WebChromeClient() {
@@ -555,7 +554,7 @@ public class MainActivity extends AppCompatActivity {
                 String cookieName = cookieArray[i].substring(0, position);// 获取键
                 String cookieValue = cookieArray[i].substring(position + 1);// 获取值
                 String value = cookieName + "=" + cookieValue;// 键值对拼接成 value
-                Log.i("cookie", value);
+//                Log.i("cookie", value);
                 CookieManager.getInstance().setCookie(getDomain(cookiesPath), value);// 设置 Cookie
             }
         }
