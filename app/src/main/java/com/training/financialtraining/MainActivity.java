@@ -76,27 +76,29 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(!loadWeb && haveNet){
+                if (!loadWeb && haveNet) {
                     loadWeb = true;
                     initWebView();
                 }
             }
-        },2000);
+        }, 2000);
     }
-    private void synCookie(String url){
-        Log.e("cook","设置cookie"+(String) SharedPreferenceUtil.get(this,"cookie",""));
+
+    private void synCookie(String url) {
+        Log.e("cook", "设置cookie" + (String) SharedPreferenceUtil.get(this, "cookie", ""));
         CookieSyncManager.createInstance(this);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
-        cookieManager.setCookie(url, (String) SharedPreferenceUtil.get(this,"cookie",""));
+        cookieManager.setCookie(url, (String) SharedPreferenceUtil.get(this, "cookie", ""));
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 //            CookieSyncManager cookieSyncManager = CookieSyncManager.createInstance(context);
 //            cookieSyncManager.sync();
             CookieSyncManager.getInstance().sync();
-            Log.e("cook","同步cookie");
+            Log.e("cook", "同步cookie");
         }
 
     }
+
     /**
      * 网络变化
      */
@@ -161,27 +163,30 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
                 CookieManager cookieManager = CookieManager.getInstance();
                 String cookie = cookieManager.getCookie(url);
-                SharedPreferenceUtil.put(MainActivity.this,"cookie",cookie);
-                Log.e("cook","保存cookie"+cookie);
+                SharedPreferenceUtil.put(MainActivity.this, "cookie", cookie);
+                Log.e("cook", "保存cookie" + cookie);
             }
         });
-        mWebview.setWebChromeClient(new WebChromeClient(){
+        mWebview.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-                mUploadCallbackAboveL=filePathCallback;
+                mUploadCallbackAboveL = filePathCallback;
                 take();
                 return true;
             }
+
             public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-                mUploadMessage=uploadMsg;
+                mUploadMessage = uploadMsg;
                 take();
             }
-            public void openFileChooser(ValueCallback<Uri> uploadMsg,String acceptType) {
-                mUploadMessage=uploadMsg;
+
+            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
+                mUploadMessage = uploadMsg;
                 take();
             }
-            public void openFileChooser(ValueCallback<Uri> uploadMsg,String acceptType, String capture) {
-                mUploadMessage=uploadMsg;
+
+            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+                mUploadMessage = uploadMsg;
                 take();
             }
         });
@@ -190,14 +195,14 @@ public class MainActivity extends AppCompatActivity {
         synCookie(Constants.HTML_URL);
 //        mWebview.loadUrl(Constants.HTML_URL);
         mWebview.loadUrl(Constants.Stu);
-        mWebview.addJavascriptInterface(this,"android");
+        mWebview.addJavascriptInterface(this, "android");
     }
 
 
-    private void take(){
+    private void take() {
         File imageStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyApp");
         // Create the storage directory if it does not exist
-        if (! imageStorageDir.exists()){
+        if (!imageStorageDir.exists()) {
             imageStorageDir.mkdirs();
         }
         File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
@@ -207,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         final PackageManager packageManager = getPackageManager();
         final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for(ResolveInfo res : listCam) {
+        for (ResolveInfo res : listCam) {
             final String packageName = res.activityInfo.packageName;
             final Intent i = new Intent(captureIntent);
             i.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
@@ -219,15 +224,15 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
         i.addCategory(Intent.CATEGORY_OPENABLE);
         i.setType("image/*");
-        Intent chooserIntent = Intent.createChooser(i,"Image Chooser");
+        Intent chooserIntent = Intent.createChooser(i, "Image Chooser");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
-        MainActivity.this.startActivityForResult(chooserIntent,  FILECHOOSER_RESULTCODE);
+        MainActivity.this.startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
     }
+
     @SuppressWarnings("null")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void onActivityResultAboveL(int requestCode, int resultCode, Intent data) {
-        if (requestCode != FILECHOOSER_RESULTCODE
-                || mUploadCallbackAboveL == null) {
+        if (requestCode != FILECHOOSER_RESULTCODE || mUploadCallbackAboveL == null) {
             return;
         }
 
@@ -254,10 +259,10 @@ public class MainActivity extends AppCompatActivity {
                     results = new Uri[]{Uri.parse(dataString)};
             }
         }
-        if(results!=null){
+        if (results != null) {
             mUploadCallbackAboveL.onReceiveValue(results);
             mUploadCallbackAboveL = null;
-        }else{
+        } else {
             results = new Uri[]{imageUri};
             mUploadCallbackAboveL.onReceiveValue(results);
             mUploadCallbackAboveL = null;
@@ -353,6 +358,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return null;
     }
+
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is ExternalStorageProvider.
@@ -383,14 +389,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==FILECHOOSER_RESULTCODE)
-        {
+        if (requestCode == FILECHOOSER_RESULTCODE) {
             if (null == mUploadMessage && null == mUploadCallbackAboveL) return;
             Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
             if (mUploadCallbackAboveL != null) {
                 onActivityResultAboveL(requestCode, resultCode, data);
-            }
-            else  if (mUploadMessage != null) {
+            } else if (mUploadMessage != null) {
 
                 if (result != null) {
                     String path = getPath(getApplicationContext(),
@@ -405,16 +409,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     @JavascriptInterface
-    public void checkpermission(){
+    public void checkpermission() {
         checkPermission();
     }
 
     private void checkPermission() {
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {//这里可以写个对话框之类的项向用户解释为什么要申请权限，并在对话框的确认键后续再次申请权限
-                Toast.makeText(this,"没有读取内存卡的权限,请手动开启",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "没有读取内存卡的权限,请手动开启", Toast.LENGTH_SHORT).show();
             } else {
                 //申请权限，字符串数组内是一个或多个要申请的权限，1是申请权限结果的返回参数，在onRequestPermissionsResult可以得知申请结果
                 ActivityCompat.requestPermissions(this,
@@ -520,7 +525,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void savecook() {
         CookieManager cookieManager = CookieManager.getInstance();
         String cookieStr = cookieManager.getCookie(getDomain(Constants.HTML_URL));
@@ -540,6 +544,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return url;
     }
+
     public void setCookies(String cookiesPath) {
         Map<String, String> cookieMap = new HashMap<>();
         String cookie = getSharedPreferences("cookie", Context.MODE_PRIVATE).getString("cookies", "");// 从SharedPreferences中获取整个Cookie串
